@@ -151,11 +151,9 @@ ReactDOM.render(navList, mainElement);
      You can create virtual DOM nodes in React with JSX by defining HTML syntax in a JavaScript file.
 ```
 
-`--------------------------------------------------------------------------------------------------------------`
+## Function Component
 
-### Function Component
-
-- Creat a Function Component
+- `Create a Function Component`
   - A React function component is a function that returns a JSX element
     - The name of the function is PascalCase by convention.
 - Example
@@ -186,4 +184,160 @@ const rootElement = document.getElementById("root");
 
 // Give React the element tree and the target
 ReactDOM.render(<NavBar />, rootElement);
+```
+
+- Notice how the NavBar function component isn't called explicitly in the code? Instead, it's wrapped in JSX tags and looks just like an HTML tag. This will nest the real DOM converted from the nav JSX element returned from the NavBar function in the real DOM element with the id of root.
+
+  - Note: you cannot define HTML attributes when rendering a function component as a JSX element:
+    ` <NavBar className="nav-bar" />` will not apply an HTML attribute of class onto any of the rendered elements in NavBar.
+
+- `Showing nothing`
+
+  - You must return something from a function component
+  - You cannot return undefined from a function component. React will not build correctly when trying to render a component that returns undefined If you don't want to render anything from a component, then return null instead.
+
+- `Example`
+
+```js
+const str = "hello";
+
+function ExampleComponent() {
+  if (str === "hello") return null;
+  else return <div>World!</div>;
+}
+```
+
+- When rendered, this component will not show anything on the page if str is "hello". If str isn't "hello", the component will show a div with the text "World!" inside of it.
+
+- `Nested Function Component`
+
+  - To render a function component in another function component, you can apply the same principle above.
+  - Wrap the desired nested function component in JSX tags just like you would a regular HTML tag in the return of the outer function component.
+
+- `Example`
+
+```js
+function NavLinks() {
+  return (
+    <ul>
+      <li className="selected">
+        <a href="/pets">Pets</a>
+      </li>
+      <li>
+        <a href="/owners">Owners</a>
+      </li>
+    </ul>
+  );
+}
+
+function NavBar() {
+  return (
+    <nav>
+      <h1>Pet App</h1>
+      <NavLinks />
+    </nav>
+  );
+}
+```
+
+- The NavBar component is the parent of the NavLinks component, which means NavBar is rendering the NavLinks component as its child.
+
+- `Component organization`
+
+  - When breaking down components into smaller components, you can also divide them up into multiple files.
+  - it's common to have one component per file and export/import them when you need them in other components.
+
+- `Example`
+
+```js
+// NavLinks.js
+
+function NavLinks() {
+  return (
+    <ul>
+      <li className="selected">
+        <a href="/pets">Pets</a>
+      </li>
+      <li>
+        <a href="/owners">Owners</a>
+      </li>
+    </ul>
+  );
+}
+
+export default NavLinks;
+```
+
+- NavBar can also be defined in its own file called NavBar.js. To use the NavLinks component, it can import it at the top of the file. It should also export itself from this file.
+
+```js
+// NavBar.js
+import NavLinks from "./NavLinks.js";
+
+function NavBar() {
+  return (
+    <nav>
+      <h1>Pet App</h1>
+      <NavLinks />
+    </nav>
+  );
+}
+
+export default NavBar;
+```
+
+- `React.fragment`
+
+  - React function components need to always return one JSX element as the highest level tag.
+    - There will be a React compilation error if there is more than one outermost parent element returned from a function component.
+
+- `Example`
+
+```js
+// THIS COMPONENT WILL NOT WORK
+function IncorrectComponent() {
+  // returns two div tags (WILL NOT WORK)
+  return (
+    <div></div>
+    <div></div>
+  );
+}
+```
+
+- There are two ways to solve this issue.
+
+  - wrap the elements in a parent element like another div
+    - but this would generate another real HTML element.
+  - rap the elements in a JSX element called React.fragment and no other real HTML element will be created.
+
+- `Example`
+
+```js
+import React from "react";
+
+function CorrectComponent() {
+  // returns two div tags wrapped in React.fragment (WILL WORK)
+  return (
+    <React.fragment>
+      <div></div>
+      <div></div>
+    </React.fragment>
+  );
+}
+```
+
+- You can also return empty tags that will be read in JSX as React.fragment.
+
+```js
+import React from "react";
+
+function CorrectComponent() {
+  // returns two div tags wrapped in empty tags (WILL WORK)
+  return (
+    <>
+      <div></div>
+      <div></div>
+    </>
+  );
+}
 ```
