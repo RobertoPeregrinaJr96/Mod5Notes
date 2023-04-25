@@ -4,19 +4,19 @@
 
 - `ES6`
 
-  - import = we can use import to import relalive npm Packages ,importing Css pathways as well as importing from moduels
+  - import = we can use import to import relative npm Packages ,importing Css pathways as well as importing from modules
   - named export = we can have as many named exports as we want on the file, named exports have to be imported with the same name that they were exported
-  - default export = we can only have one to a file it will usally be reserved for Redux reducer or when you export Functional componets , default exports when imported can be named whatever we want as they arn't within curly braces
+  - default export = we can only have one to a file it will usually be reserved for Redux reducer or when you export Functional components , default exports when imported can be named whatever we want as they aren't within curly braces
 
 - `JavaScript eXtension`
 
   - JSX = JavaScript eXtension
   - JSX uses familiar Html sytax in JavaScript files that can be transpiled by tools like babel
 
-- `Creating Elemtes`
-  - we create varibles that have the value of HTML sytax
-  - virtual DOM = these varible that contain HTML sytax are refered to as virtual dom nodes
-  - not real HTML = even though we are assigning values that look like HTML sytax they are indeed not atchuly HTML
+- `Creating element's`
+  - we create variables that have the value of HTML syntax
+  - virtual DOM = these variable that contain HTML syntax are referred to as virtual dom nodes
+  - not real HTML = even though we are assigning values that look like HTML syntax they are indeed not actually HTML
   - React converts the virtual DOM nodes created from the JSX into real DOM elements
 - Example
 
@@ -97,7 +97,7 @@ ReactDOM.render(navList, mainElement);
   - `EXPLANATION`
 
 ```
-   - In JSX, HTML's class becomes className, for becomes htmlFor, and onchange becomes onChange.
+    In JSX, HTML's class becomes className, for becomes htmlFor, and onchange becomes onChange.
 ```
 
 - `Question 2`
@@ -110,7 +110,7 @@ ReactDOM.render(navList, mainElement);
   - `EXPLANATION`
 
 ```
-    - className is used in JSX instead of class because class is a reserved keyword in JavaScript.
+      className is used in JSX instead of class because class is a reserved keyword in JavaScript.
 ```
 
 - `Question 3`
@@ -122,9 +122,9 @@ ReactDOM.render(navList, mainElement);
     - React reloads your page to update your content.
   - `EXPLANATION`
 
-    ```
-        - If you call ReactDOM.render on the same component and target again, React will compare your latest virtual DOM update to the most recently rendered version of the virtual DOM and decide which nodes, if any, should be updated.
-    ```
+```
+         If you call ReactDOM.render on the same component and target again, React will compare your latest virtual DOM update to the most recently rendered version of the virtual DOM and decide which nodes, if any, should be updated.
+```
 
 - `Question 4`
 
@@ -135,9 +135,9 @@ ReactDOM.render(navList, mainElement);
     - When you call your .js file with node
   - `EXPLANATION`
 
-  ```
+```
      You can start the conversion process by using the ReactDOM.render method, which will convert the virtual DOM node into a real DOM node and nest it under the given real DOM node.
-  ```
+```
 
 - `Question 5`
   - How can you create virtual DOM nodes with JSX?
@@ -453,11 +453,113 @@ function NavLinks({ hello, color }) {
 
   - Props should never be changed within the child component! A component should never modify its own props object.
 
-- `Incorrect manipulaton of props Example`
+- `Incorrect manipulation of props Example`
 
 ```js
 function ExampleComponent(props) {
   props.hello = "world?";
   return <div>{props.hello}</div>;
 }
+```
+
+### `Router Introducetion`
+
+- <a href = 'https://github.com/ReactTraining/react-router'>React Router</a> is a frontend routing library that allows you to control which components to display using the browser location.
+
+- `Getting started with routing` - Create a simple react project template with npm:
+
+  ```js
+  npx create-react-app my-app --template @appacademy/react-v17 --use-npm
+  ```
+
+- Change directory into my-app and install React Router:
+
+  ```js
+  cd my-app && npm install --save react-router-dom@^5.1.2
+  ```
+
+  Start the React development server at http://localhost:3000:
+
+  ```js
+  npm start
+  ```
+
+  Now import BrowserRouter from react-router-dom in your entry file, src/index.js:
+
+  ```js
+  // ./src/index.js
+  import { BrowserRouter } from "react-router-dom";
+  ```
+
+- `BrowserRouter`
+  - BrowserRouter is the primary component of the router that wraps your route hierarchy
+    - It makes routing information from React Router available to all its descendent components.
+- Example
+
+```js
+// ./src/index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+
+const Root = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
+```
+
+- (You would also need to connect this new Root component in ReactDOM.render instead of App.)
+
+```js
+// ./src/index.js
+ReactDOM.render(
+  <React.StrictMode>
+    <Root />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+- `HashRouter`
+
+  - Alternatively, you could import and use HashRouter from react-router-dom. Links for applications that use `<HashRouter>` would look like https://www.website.com/#/profile (with a # between the domain and path).
+    - You'll focus on using `<BrowserRouter>`. `<HashRouter>` is primarily used in legacy code or for sites that need to be compatible with legacy browsers.
+
+- `<Route>` component
+
+  - React Router helps your React application render specific components based on the URL path. The React Router component you'll use most often is `<Route>`.
+  - The `<Route>` component is used to wrap another component, causing that component to be rendered only if a certain URL is matched. The behavior of the `<Route>` component is controlled by the following props: exact and path.
+
+  ```js
+  // ./src/index.js
+  import React from "react";
+  import ReactDOM from "react-dom";
+  import { BrowserRouter, Route } from "react-router-dom";
+  import App from "./App";
+  import Users from "./components/Users";
+  ```
+
+  ```js
+  const Root = () => {
+    return (
+      <BrowserRouter>
+        <div>{/* TODO: Routes */}</div>
+      </BrowserRouter>
+    );
+  };
+  ```
+
+- Finally, make sure that you have connected the Root component in ReactDOM.render instead of App.
+
+```js
+ReactDOM.render(
+  <React.StrictMode>
+    <Root />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
 ```
