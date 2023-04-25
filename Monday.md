@@ -341,3 +341,123 @@ function CorrectComponent() {
   );
 }
 ```
+
+### Passing Information through Props
+
+- `Passing props into components`
+
+  - A parent component can pass down information to its children through React props
+  - props is an object and an argument to a React function component that is passed down from a parent to a child component.
+
+- Passing down information through props
+
+  - React elements can accept props from its parent or from wherever it is created or rendered
+  - props is an object that gets passed down from the parent function component into the child function component
+    - It is always the first argument to a React function component.
+
+- `Example`
+
+```js
+function NavBar() {
+  return (
+    <nav>
+      <h1>Pet App</h1>
+      <NavLinks hello="world" />
+    </nav>
+  );
+}
+```
+
+- You can also interpolate values into JSX. Set a variable to the string, "world", and replace the string of "world" in the NavLinks JSX element with the variable wrapped in curly braces
+
+```js
+function NavBar() {
+  const world = "world";
+  return (
+    <nav>
+      <h1>Pet App</h1>
+      <NavLinks hello={world} />
+    </nav>
+  );
+}
+```
+
+- React will invoke the NavLinks function with the props object as the first argument
+
+  - This is true for any function component
+  - This means that you can expect the first parameter of a function component to be an object that has its keys and values determined by the parent component
+
+- `Example`
+
+```js
+function NavLinks(props) {
+  return (
+    <ul>
+      <li>
+        <a href="/hello">{props.hello}</a>
+      </li>
+      <li className="selected">
+        <a href="/pets">Pets</a>
+      </li>
+      <li>
+        <a href="/owners">Owners</a>
+      </li>
+    </ul>
+  );
+}
+```
+
+- You can pass down as many props keys as you want
+
+```js
+function NavBar() {
+  const world = "world";
+  return (
+    <nav>
+      <h1>Pet App</h1>
+      <NavLinks hello={world} color="green" />
+    </nav>
+  );
+}
+```
+
+- In NavLinks, you can expect that the props object will have a key of color with the value of "green".
+
+- `Destructure props`
+
+  - You can also explicitly define which props the child component should be expecting by destructuring the props object in the function component's parameter.
+
+- `Example`
+
+```js
+function NavLinks({ hello, color }) {
+  return (
+    <ul>
+      <li>
+        <a href="/hello">{hello}</a>
+      </li>
+      <li className="selected">
+        <a href="/pets">Pets</a>
+      </li>
+      <li>
+        <a href="/owners">Owners</a>
+      </li>
+    </ul>
+  );
+}
+```
+
+- Destructuring props can help you make your code more readable
+
+- `Read-only`
+
+  - Props should never be changed within the child component! A component should never modify its own props object.
+
+- `Incorrect manipulaton of props Example`
+
+```js
+function ExampleComponent(props) {
+  props.hello = "world?";
+  return <div>{props.hello}</div>;
+}
+```
