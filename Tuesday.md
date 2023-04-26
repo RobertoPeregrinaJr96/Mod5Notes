@@ -212,3 +212,145 @@ The argument passed to the useState hook is used only when the component gets ev
 ```
   Since JavaScript functions can return only one value, the useState hook returns a single array that holds the value of the current state and an updater function.
 ```
+
+### `useEffect Hook Intro`
+
+- the useEffect hook handeles asynchronus opersations and invokes side effects in function al copoentts
+
+- side effects? = Anything that saffects somethingsoutside the scope of the current function being executed
+
+- When to use useEffect Hook
+
+  1. Data Fetching
+  2. Handdling Subvvscriptions
+  3. Timers
+  4. Directlyh changing the DOM
+  5. Updating based on tstate or props
+
+- `useEffect syntax - useEffect(function , array)`
+
+```js
+useEffect(
+  () => {
+    /*
+    logic goes here
+    */
+  },
+  [
+    /*  dependency array  */
+  ]
+);
+```
+
+- Example
+
+```js
+const Dog = () => {
+    const [dogImage,setDogImage] = useState('');
+
+    useEffect(() => {
+        cosnt fetchDogs = asynce () => {
+            const response = await fetch(
+                'api.url'
+            );
+            if(response.ok){
+                const dog = await response.json();
+                setDogImage(dog.message);
+            }
+        }
+        fetchDogs();
+    }, [])
+return (
+    <div className = 'home-container'>
+    <h1>Doberman</h1>
+    {dogImage === ''}
+    <h1>loading...<h1>
+    ) : (
+        <div>
+            <img src={dogImage} alt = {dogImage} />
+        </div>
+    )
+
+}
+
+```
+
+- `When does a useEffect run?`
+
+  - Impossible to gauge
+
+  - Synchronously with the painting of the DOM
+
+  - Before the component renders for the first time
+
+  - After the component's first render and every subsequent render
+
+`EXPLANATION`
+
+```
+By default, a useEffect hook runs after the first render of a component and after every subsequent render. (If a dependency array is supplied, then the useEffect will run after the first render and after any subsequent render when a dependency in the array has changed.)
+```
+
+- `The dependency array in a useEffect hook`
+
+  - Stores state values
+
+  - Listens for changes in state and props
+
+  - Stores prop values
+
+- `EXPLANATION`
+
+```
+  A dependency array is an optional argument for a useEffect hook that listens for changes in state and/or props. A useEffect with a dependency array will run only after renders in which such changes have been detected (including--always--the first render).
+```
+
+- `The one required argument for a useEffect hook is`
+
+  - An object
+
+  - An async function
+
+  - An anonymous function
+
+  - A dependency array
+
+- `EXPLANATION`
+
+```
+  The only required argument for a useEffect hook is an anonymous function.
+```
+
+- `What could the callback function in a useEffect hook return?`
+
+  - An object containing the new values of any state variables the useEffect has changed
+
+  - A cleanup function
+
+  - A boolean signifying whether or not the useEffect ran successfully
+
+  - A dependency array
+
+- `EXPLANATION`
+
+```
+  The callback function in a useEffect hook may optionally return a cleanup function that will be run before the useEffect runs again and after the component unmounts.
+```
+
+- `Select all that apply: A good use case for a useEffect with an empty dependency array is`
+
+  - To change an image in the component as a state variable changes
+
+  - To make a fetch call to a third-party API
+
+  - To declare state variables
+
+  - To render a component
+
+  - To toggle a data display on and off in response to a button click
+
+- `EXPLANATION`
+
+```
+  A useEffect with an empty dependency array will run only once, after the first render. Making a fetch call to a third-party API and then setting the state with the fetched data is a common use for such a useEffect.
+```
